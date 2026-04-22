@@ -26,5 +26,3 @@ Al-Najjar Shop is a comprehensive digital storefront and administrative panel fo
 
 3. **Access the Admin Panel**
    Navigate to `/alnajjar-root` (e.g., `http://localhost:5173/alnajjar-root`).
-   - Default Username: `alnajjar`
-   - Default Password: `alnajjar123$`
