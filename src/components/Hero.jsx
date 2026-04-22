@@ -18,11 +18,13 @@ export default memo(function Hero() {
                     key={src}
                     className="absolute inset-0 w-full h-full object-cover"
                     autoPlay muted loop playsInline
+                    preload="auto"
+                    fetchPriority="high"
                 >
                     <source src={src} type="video/mp4" />
                 </video>
             ) : src ? (
-                <img src={src} alt="Hero" className="absolute inset-0 w-full h-full object-cover" />
+                <img src={src} alt="Hero" fetchPriority="high" className="absolute inset-0 w-full h-full object-cover" />
             ) : (
                 <div className="hero-animated-bg absolute inset-0 w-full h-full" />
             )}

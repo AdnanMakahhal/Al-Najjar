@@ -112,8 +112,8 @@
   animation: float-shape 15s ease-in-out infinite;
 }
 
-.hero-content-animate         { animation: fadeUp 0.8s ease forwards; }
-.hero-content-animate-delay   { animation: fadeUp 0.8s ease 0.2s forwards; opacity: 0; }
+.hero-content-animate         { animation: fadeUp 0.5s ease forwards; }
+.hero-content-animate-delay   { animation: fadeUp 0.5s ease 0.1s forwards; opacity: 0; }
 
 /* ===== HEADER SHADOW ON SCROLL ===== */
 .header-scrolled {

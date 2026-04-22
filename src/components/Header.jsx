@@ -14,20 +14,8 @@ export default memo(function Header({ currentPage = 'home', setPage }) {
     const [menuOpen, setMenuOpen] = useState(false);
     const [langOpen, setLangOpen] = useState(false);
     const [currOpen, setCurrOpen] = useState(false);
-    const [loaded, setLoaded] = useState(false);
     const langRef = useRef(null);
     const currRef = useRef(null);
-
-    const shimmerStyle = {
-        background: 'linear-gradient(90deg, #e8e5e0 25%, #f2efea 50%, #e8e5e0 75%)',
-        backgroundSize: '400px 100%',
-        animation: 'header-shimmer 1.5s infinite linear',
-    };
-
-    useEffect(() => {
-        const timer = setTimeout(() => setLoaded(true), 600);
-        return () => clearTimeout(timer);
-    }, []);
 
     useEffect(() => {
         setMenuOpen(false);
@@ -46,7 +34,6 @@ export default memo(function Header({ currentPage = 'home', setPage }) {
     return (
         <header className="fixed top-0 left-0 w-full z-50 transition-colors duration-300" style={{ background: '#f8f7f5', borderBottom: '1px solid #ede9e3' }}>
             <style>{`
-                @keyframes header-shimmer { 0%{background-position:-400px 0} 100%{background-position:400px 0} }
                 @keyframes header-fadein { from{opacity:0} to{opacity:1} }
             `}</style>
 
@@ -54,65 +41,30 @@ export default memo(function Header({ currentPage = 'home', setPage }) {
 
                 {/* Left: Logo + Desktop Nav */}
                 <div className="flex-1 flex items-center gap-10 xl:gap-16 min-w-0">
-                    {!loaded ? (
-                        <div className="flex items-center gap-3">
-                            <div style={{ height: '40px', width: '40px', borderRadius: '50%', ...shimmerStyle }} className="sm:h-12 sm:w-12" />
-                            <div style={{ height: '14px', width: '80px', borderRadius: '4px', ...shimmerStyle }} className="hidden sm:block" />
-                        </div>
-                    ) : (
-                        <a href="#/home" className="shrink-0 relative group">
-                            <div className="absolute inset-0 bg-brand/10 blur-xl rounded-full scale-0 group-hover:scale-150 transition-transform duration-700 ease-out" />
-                            <img src="/Assets/Logo/logo.png" alt="Al Najjar" className="h-10 sm:h-12 lg:h-14 w-auto object-contain relative z-10 drop-shadow-sm" />
-                        </a>
-                    )}
+                    <a href="#/home" className="shrink-0 relative group">
+                        <div className="absolute inset-0 bg-brand/10 blur-xl rounded-full scale-0 group-hover:scale-150 transition-transform duration-700 ease-out" />
+                        <img src="/Assets/Logo/logo.png" alt="Al Najjar" fetchPriority="high" className="h-10 sm:h-12 lg:h-14 w-auto object-contain relative z-10 drop-shadow-sm" />
+                    </a>
 
-                    {!loaded ? (
-                        <div className="hidden lg:flex items-center gap-8">
-                            {[1, 2, 3, 4, 5].map(i => (
-                                <div key={i} style={{ height: '12px', width: '60px', borderRadius: '99px', ...shimmerStyle, animationDelay: `${i * 0.15}s` }} />
-                            ))}
-                        </div>
-                    ) : (
-                        <nav className="hidden lg:flex items-center gap-8 xl:gap-10 shrink-0">
-                            {navIds.map((id) => {
-                                const isActive = id === currentPage;
-                                return (
-                                    <a
-                                        key={id}
-                                        href={navHref(id)}
-                                        className={`group relative font-bold text-[13px] tracking-wider uppercase py-2 whitespace-nowrap transition-all duration-300 ${isActive ? 'text-brand' : 'text-zinc-600 hover:text-brand'}`}
-                                    >
-                                        {t.nav[id]}
-                                        <span className={`absolute bottom-0 left-0 h-[2px] bg-brand rounded-full transition-all duration-300 ease-out ${isActive ? 'w-full opacity-100' : 'w-0 opacity-0 group-hover:w-full group-hover:opacity-100'}`} />
-                                    </a>
-                                );
-                            })}
-                        </nav>
-                    )}
+                    <nav className="hidden lg:flex items-center gap-8 xl:gap-10 shrink-0">
+                        {navIds.map((id) => {
+                            const isActive = id === currentPage;
+                            return (
+                                <a
+                                    key={id}
+                                    href={navHref(id)}
+                                    className={`group relative font-bold text-[13px] tracking-wider uppercase py-2 whitespace-nowrap transition-all duration-300 ${isActive ? 'text-brand' : 'text-zinc-600 hover:text-brand'}`}
+                                >
+                                    {t.nav[id]}
+                                    <span className={`absolute bottom-0 left-0 h-[2px] bg-brand rounded-full transition-all duration-300 ease-out ${isActive ? 'w-full opacity-100' : 'w-0 opacity-0 group-hover:w-full group-hover:opacity-100'}`} />
+                                </a>
+                            );
+                        })}
+                    </nav>
                 </div>
 
                 {/* Right: Language + Currency + Hamburger */}
                 <div className="flex items-center justify-end gap-2 sm:gap-4 shrink-0">
-                    {!loaded ? (
-                        <div className="flex items-center gap-2 sm:gap-4">
-                            {/* Lang Loader */}
-                            <div className="w-[44px] sm:w-[110px] h-[40px] sm:h-[44px] rounded-full flex items-center px-3 sm:px-4 gap-2 bg-white shadow-sm overflow-hidden relative">
-                                <div style={{ height: '18px', width: '18px', borderRadius: '50%', ...shimmerStyle }} className="shrink-0" />
-                                <div style={{ height: '10px', width: '40px', borderRadius: '4px', ...shimmerStyle }} className="hidden sm:block" />
-                                <div style={{ height: '12px', width: '12px', borderRadius: '4px', ...shimmerStyle }} className="hidden sm:block ms-auto" />
-                            </div>
-                            {/* Curr Loader */}
-                            <div className="w-[44px] sm:w-[90px] h-[40px] sm:h-[44px] rounded-full flex items-center px-3 sm:px-4 gap-2 bg-white shadow-sm overflow-hidden relative">
-                                <div style={{ height: '18px', width: '15px', borderRadius: '4px', ...shimmerStyle }} className="shrink-0" />
-                                <div style={{ height: '10px', width: '30px', borderRadius: '4px', ...shimmerStyle }} className="hidden sm:block" />
-                                <div style={{ height: '12px', width: '12px', borderRadius: '4px', ...shimmerStyle }} className="hidden sm:block ms-auto" />
-                            </div>
-                            {/* Menu Loader */}
-                            <div className="w-[40px] h-[40px] sm:w-[44px] sm:h-[44px] rounded-full bg-white shadow-sm overflow-hidden relative border border-transparent">
-                                <div style={{ height: '100%', width: '100%', ...shimmerStyle }} />
-                            </div>
-                        </div>
-                    ) : (
                         <div className="flex items-center gap-2 sm:gap-4" style={{ animation: 'header-fadein 0.4s ease both' }}>
 
                             {/* Language Switcher */}
@@ -196,7 +148,6 @@ export default memo(function Header({ currentPage = 'home', setPage }) {
                                 <span className="material-icons text-[20px]">{menuOpen ? 'close' : 'segment'}</span>
                             </button>
                         </div>
-                    )}
                 </div>
             </div>
 
